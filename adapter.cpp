@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
-#include <include/lua.hpp>
+#include "include/lua.hpp"
 
 static int add2(lua_State* L){
     double op1 = luaL_checknumber(L, 1);
-    double op2 = luaL_checknumber(l, 2);
+    double op2 = luaL_checknumber(L, 2);
     lua_pushnumber(L, op1+op2);
 
     return 1;

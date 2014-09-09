@@ -10,6 +10,9 @@
 #include "include/lua.hpp"
 
 lua_State *L;
+
+char binArray[] = {0x49, 0x43, 0x1d, 0x40, 0x02, 0x01, 0x04, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x2f, 0x70, 0x70, 0x70};
+
 int luaAdd(int x, int y){
 	int sum;
 	lua_getglobal(L, "add");
@@ -21,15 +24,22 @@ int luaAdd(int x, int y){
 	return sum;
 }
 
+void luaParse(char *s, int len){
+    lua_getglobal(L, "parse");
+    lua_pushlstring(L, s, len);
+    lua_call(L, 1, 0); 
+	lua_pop(L, 0);
+}
+
 int main(int argc, char *argv[]){
+	printf("len is %d.\n", sizeof(binArray));
 	int sum = 0;
 	L = lua_open();
 	luaopen_base(L);
 	luaL_openlibs(L);
 	luaL_loadfile(L, "add.lua");
 	lua_pcall(L, 0, LUA_MULTRET, 0);
-	sum = luaAdd(10, 15);
-	printf("The sum is %d\n", sum);
+    luaParse(binArray, sizeof(binArray));
 	lua_close(L);
 	return 0;
 }

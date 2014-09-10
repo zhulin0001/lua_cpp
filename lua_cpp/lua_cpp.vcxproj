@@ -76,6 +76,7 @@
     <None Include="..\add.lua" />
     <None Include="..\build_adapter.bat" />
     <None Include="..\build_main.bat" />
+    <None Include="..\test.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

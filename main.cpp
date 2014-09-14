@@ -36,13 +36,13 @@ int main(int argc, char *argv[]){
 	FILE *fr = fopen("test.lua", "r");
 	//FILE *fw = fopen("out.txt", "w");
 	int pos = 0;
-	for(int i=0; i<256; i++){
-		fgets(line, 255, fr);
+	for(int i=0; i<5; i++){
+		fgets(line, 5, fr);
 		short num = 0;
 		num |= line[0];
-		num << 8;
+		num = num << 8;
 		num |= line[1];
-		printf("num is %d %02x %c.\n", num, num, num);
+		printf("num is %05d|%04x\n", num, num);
 		pos += strlen(line);
 		fseek(fr, pos, SEEK_SET);
 	}

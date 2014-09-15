@@ -9,14 +9,13 @@ end
 
 
 function parse(arr)
-	print(arr)
 	for i=1, string.len(arr), 1 do
 		-- print(string.byte(arr, i))
-		print(string.byte(string.sub(RECV, string.byte(arr, i)+1, string.byte(arr, i)+1)))
+		-- print(string.byte(string.sub(RECV, string.byte(arr, i)+1, string.byte(arr, i)+1)))
 		-- print(string.byte(RECV, string.byte(arr, i)+1))
+		printHex(string.sub(RECV, string.byte(arr, i)+1, string.byte(arr, i)+1))
 	end
 end
-
 
 function hehe()
 	local str = "\000"

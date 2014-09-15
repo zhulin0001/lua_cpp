@@ -15,11 +15,12 @@
 using namespace std;
 lua_State *L;
 
-char binArray[] = {0x49, 0x43, 0x1d, 0x40, 0x02, 0x01, 0x04, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x2f, 0x70, 0x70, 0x70};
+//char binArray[] = {0x49, 0x43, 0x1d, 0x40, 0x02, 0x01, 0x04, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x2f, 0x70, 0x70, 0x70};
+uint8_t binArray[] = {0xFD,0x24,0xBD,0x25,0x37,0x29,0xAC,0x4E,0xF9,0x92,0x3A,0x32,0x4C,0xDA,0x06,0x5E};
 
 int luaAdd(int x, int y){
 	int sum;
-	lua_getglobal(L, "add");
+	lua_getglobal(L,"add");
 	lua_pushnumber(L, x);
 	lua_pushnumber(L, y);
 	lua_call(L, 2, 1);
@@ -33,6 +34,16 @@ void luaParse(char *s, int len){
     lua_pushlstring(L, s, len);
     lua_call(L, 1, 0); 
 	lua_pop(L, 0);
+}
+
+static int printHex(lua_State* L){
+	size_t len = 0;
+    const char * str = luaL_checklstring(L, 1, &len);
+	for(size_t i=0; i<len; i++){
+		printf("0x%02X\t", (uint8_t)str[i]);
+	}
+	printf("\n");
+    return 0;
 }
 
 uint8_t hexCharToData(const uint8_t cChar){
@@ -65,9 +76,10 @@ int main(int argc, char *argv[]){
 	L = lua_open();
 	luaopen_base(L);
 	luaL_openlibs(L);
+    lua_register(L, "printHex", printHex);
 	luaL_loadfile(L, "add.lua");
 	lua_pcall(L, 0, LUA_MULTRET, 0);
-    luaParse(binArray, sizeof(binArray));
+    luaParse((char*)binArray, sizeof(binArray));
 	lua_close(L);
 	return 0;
 }
